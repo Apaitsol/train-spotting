@@ -35,7 +35,7 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
     boolean buttonSelect;
     static Button bDepartureStation;
     static Button bDestinationStation;
-
+    private Boolean buttonPressed;
     String mDepartureStation;
     String mDestinationStation;
 
@@ -50,13 +50,11 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        bDepartureStation = findViewById(R.id.departureStationSelected);
-        bDestinationStation = findViewById(R.id.destinationStationSelected);
-
         _url = "https://rata.digitraffic.fi/api/v1/";
         queue = HTTPTrain.getInstance(this.getApplicationContext()).getRequestQueue();
         setContentView(R.layout.activity_search);
-
+        bDepartureStation = findViewById(R.id.departureStationSelected);
+        bDestinationStation = findViewById(R.id.destinationStationSelected);
         getStations();
     }
 
@@ -83,23 +81,35 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
     public void onListFragmentInteraction(Station station) {
         // Log.i("A", station.getStationShortCode());
         final String mStation = station.getStationShortCode().toString();
+        final String mStationDisplay = station.getStationName().toString();
+
         Log.i("a", mStation);
 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                bDepartureStation.setText(mStation);
+                if(buttonPressed) {
+                    bDestinationStation.setText(mStationDisplay);
+                    mDestinationStation = mStation;
+                } else {
+                    bDepartureStation.setText(mStationDisplay);
+                    mDepartureStation = mStation;
+                }
+                fragment.dismiss();
             }
         });
 
     }
 
     public void selectDepartureStation(View view) {
+
         fragment.show(manager, "Stationlist");
+        buttonPressed = false;
     }
 
     public void selectDestinationStation(View view) {
         fragment.show(manager, "Stationlist");
+        buttonPressed = true;
     }
 
     public void getStations() {
@@ -136,7 +146,7 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
     }
 
     public void getStationComposition(String departureStation, String arrivalStation) {
-        String url = _url + "live-trains/station" + departureStation + '/' + arrivalStation;
+        String url = _url + "live-trains/station/" + departureStation + '/' + arrivalStation;
 
     }
 
