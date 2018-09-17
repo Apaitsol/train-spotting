@@ -145,8 +145,8 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
         String url = _url + "train-tracking/latest/" + TrainNumber;
     }
 
-    public void getStationComposition(String departureStation, String arrivalStation) {
-        String url = _url + "live-trains/station/" + departureStation + '/' + arrivalStation;
+    public void getStationComposition(View view) {
+        String url = _url + "live-trains/station/";
 
     }
 

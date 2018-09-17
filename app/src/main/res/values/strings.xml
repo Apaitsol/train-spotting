@@ -5,6 +5,7 @@
     <string name="mainTitleLabel">Junat</string>
     <string name="departureButton">Lähtö</string>
     <string name="destinationButton">Pääte</string>
+    <string name="trainsButton">Hae Junia</string>
     <string name="latestStationLabel">Edellinen asema</string>
     <string name="nextStationLabel">Seuraava asema</string>
 </resources>
