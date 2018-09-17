@@ -2,7 +2,6 @@ package com.example.admin.trainspotting;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,10 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.admin.trainspotting.dummy.DummyContent;
-import com.example.admin.trainspotting.dummy.DummyContent.DummyItem;
-
-import java.util.List;
+import com.example.admin.trainspotting.Classes.DummyContent;
 
 /**
  * A fragment representing a list of Items.

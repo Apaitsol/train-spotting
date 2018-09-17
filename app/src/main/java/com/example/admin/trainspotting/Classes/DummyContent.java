@@ -1,4 +1,4 @@
-package com.example.admin.trainspotting.dummy;
+package com.example.admin.trainspotting.Classes;
 
 import java.util.ArrayList;
 import java.util.HashMap;

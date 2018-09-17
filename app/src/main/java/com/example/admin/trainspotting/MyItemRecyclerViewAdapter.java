@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.admin.trainspotting.ItemFragment.OnListFragmentInteractionListener;
-import com.example.admin.trainspotting.dummy.DummyContent.DummyItem;
+import com.example.admin.trainspotting.Classes.DummyContent.DummyItem;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.admin.trainspotting;
+package com.example.admin.trainspotting.Classes;
 
 public class Station {
     public boolean isPassengerTraffic() {
