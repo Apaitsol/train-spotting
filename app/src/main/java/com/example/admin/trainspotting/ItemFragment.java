@@ -9,8 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
-import com.example.admin.trainspotting.Classes.DummyContent;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -65,7 +66,7 @@ public class ItemFragment extends DialogFragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(SearchActivity.stationList, mListener));
         }
         return view;
     }
@@ -100,6 +101,6 @@ public class ItemFragment extends DialogFragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction();
+        void onListFragmentInteraction(Station station);
     }
 }
