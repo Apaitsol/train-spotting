@@ -35,16 +35,23 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.view.View;
+import android.widget.Button;
 
 public class SearchActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
 
     FragmentManager manager = getSupportFragmentManager();
     ItemFragment fragment = ItemFragment.newInstance();
-
     RequestQueue queue;
     String _url;
 
-    private ArrayList<Station> stationList;
+    boolean buttonSelect;
+    static Button bDepartureStation;
+    static Button bDestinationStation;
+
+    String mDepartureStation;
+    String mDestinationStation;
+
+    public static ArrayList<Station> stationList;
 
     private Calendar calendar;
     private String sDate;
@@ -54,6 +61,9 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        bDepartureStation = findViewById(R.id.departureStationSelected);
+        bDestinationStation = findViewById(R.id.destinationStationSelected);
 
         _url = "https://rata.digitraffic.fi/api/v1/";
         queue = HTTPTrain.getInstance(this.getApplicationContext()).getRequestQueue();
@@ -81,9 +91,31 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
         super.onResume();
     }
 
+    @Override
+    public void onListFragmentInteraction(Station station) {
+        // Log.i("A", station.getStationShortCode());
+        final String mStation = station.getStationShortCode().toString();
+        Log.i("a", mStation);
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                bDepartureStation.setText(mStation);
+            }
+        });
+
+    }
+
+    public void selectDepartureStation(View view) {
+        fragment.show(manager, "Stationlist");
+    }
+
+    public void selectDestinationStation(View view) {
+        fragment.show(manager, "Stationlist");
+    }
+
     public void getStations() {
         String url = _url + "metadata/stations";
-        Log.i("PERSE", url);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
 
@@ -108,18 +140,16 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
 
     public void getTrainLocation(String TrainNumber) {
         String url = _url + "train-locations/latest/" + TrainNumber;
-        Log.i("PERSE", url);
 
     }
 
     public void getTrainInformation(String TrainNumber ) {
         String url = _url + "train-tracking/latest/" + TrainNumber;
-        Log.i("PERSE", url);
     }
 
     public void getStationComposition(String departureStation, String arrivalStation) {
         String url = _url + "live-trains/station" + departureStation + '/' + arrivalStation;
-        Log.i("PERSE", url);
 
     }
+
 }
