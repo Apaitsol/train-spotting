@@ -10,10 +10,22 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.example.admin.trainspotting.Classes.Station;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+public class SearchActivity extends AppCompatActivity {
 
 import org.json.JSONArray;
 
@@ -67,17 +79,6 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-    @Override
-    public void onListFragmentInteraction() { }
-
-    public void selectDepartureStation(View view) {
-        fragment.show(manager, "Stationlist");
-    }
-
-    public void selectDestinationStation(View view) {
-        fragment.show(manager, "Stationlist");
     }
 
     public void getStations() {
