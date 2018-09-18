@@ -88,13 +88,13 @@ public class TrainListAdapter extends ArrayAdapter<Train> {
                 TimeTableRow stop = train.getDepartingStation(departingStation);
                 Log.i("STATION: ", stop.toString());
                 String time = dateFormat.format(stop.getScheduledTime());
-                departureTime.append(' ' + departingStation + ": " +  time);
+                departureTime.setText(' ' + departingStation + ": " +  time);
             }
 
             if(destinationTime != null && destinationStation != null) {
                 TimeTableRow stop = train.getArrivingStation(destinationStation);
                 String time = dateFormat.format(stop.getScheduledTime());
-                destinationTime.append(' ' + destinationStation + ": " + time);
+                destinationTime.setText(' ' + destinationStation + ": " + time);
             }
 
         }
