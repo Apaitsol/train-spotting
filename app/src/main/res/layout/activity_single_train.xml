@@ -81,6 +81,7 @@
         android:text="Varoitus"
         android:textColor="@color/alertColor"
         android:textSize="@dimen/title_text_size"
+        android:visibility="invisible"
         app:layout_constraintStart_toEndOf="@+id/trainNumber"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -133,6 +134,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/minuteAmountContainerLabel"
         app:layout_constraintStart_toEndOf="@+id/statusAlert"
         app:layout_constraintTop_toTopOf="parent" />
@@ -144,6 +146,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/minuteText"
+        android:visibility="invisible"
         app:layout_constraintStart_toEndOf="@+id/minuteAmountContainer"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

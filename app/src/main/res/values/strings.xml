@@ -11,4 +11,5 @@
     <string name="minuteText">minuuttia</string>
     <string name="departureTime">Lähtee asemalta </string>
     <string name="destinationTime">Saapuu asemalle </string>
+    <string name="searchTextPlaceholder">Hae asema</string>
 </resources>

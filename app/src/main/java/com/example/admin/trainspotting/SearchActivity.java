@@ -1,5 +1,6 @@
 package com.example.admin.trainspotting;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,8 +26,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class SearchActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
 
@@ -71,6 +74,24 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
 
         trainAdapter = new TrainListAdapter(this, R.layout.station_list_item, trainList);
         trainListView.setAdapter(trainAdapter);
+
+        trainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String trainNumber = ((TextView) view.findViewById(R.id.trainType)).getText().toString();
+                String trainType = ((TextView) view.findViewById(R.id.trainCategory)).getText().toString();
+                String departureStation = ((TextView) view.findViewById(R.id.departureStationInfo)).getText().toString();
+                String destinationStation = ((TextView) view.findViewById(R.id.arrivalStationInfo)).getText().toString();
+
+                Intent intent = new Intent(getApplicationContext(), SingleTrainActivity.class);
+                intent.putExtra("TRAIN_NUMBER", trainNumber);
+                intent.putExtra("TRAIN_TYPE", trainType);
+                intent.putExtra("DEPARTURE_STATION", departureStation);
+                intent.putExtra("DESTINATION_STATION", destinationStation);
+                startActivity(intent);
+            }
+        });
 
         getStations();
     }
