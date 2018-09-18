@@ -7,4 +7,5 @@
     <string name="destinationButton">Pääte</string>
     <string name="latestStationLabel">Edellinen asema</string>
     <string name="nextStationLabel">Seuraava asema</string>
+    <string name="minuteText">minuuttia</string>
 </resources>
