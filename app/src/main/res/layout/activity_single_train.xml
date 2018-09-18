@@ -129,9 +129,11 @@
         android:id="@+id/minuteAmountContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
+        app:layout_constraintEnd_toStartOf="@+id/minuteAmountContainerLabel"
         app:layout_constraintStart_toEndOf="@+id/statusAlert"
         app:layout_constraintTop_toTopOf="parent" />
 

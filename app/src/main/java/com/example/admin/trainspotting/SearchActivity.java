@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.admin.trainspotting.Classes.Station;
+import com.example.admin.trainspotting.Classes.Train;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 
 public class SearchActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
 
@@ -35,11 +37,18 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
 
     Button bDepartureStation;
     Button bDestinationStation;
+    ListView trainListView;
+
     private Boolean buttonPressed;
+
+    //Valituttujen asemien koodit
     String mDepartureStation;
     String mDestinationStation;
 
     public static List<Station> stationList;
+    public List<Train> trainList = new ArrayList<>();
+
+    TrainListAdapter trainAdapter;
 
     private Calendar calendar;
     private String sDate;
@@ -53,8 +62,16 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
         _url = "https://rata.digitraffic.fi/api/v1/";
         queue = HTTPTrain.getInstance(this.getApplicationContext()).getRequestQueue();
         setContentView(R.layout.activity_search);
+
+        /* TÄNNE UI MÄÄRITYKSET*/
         bDepartureStation = findViewById(R.id.departureStationSelected);
         bDestinationStation = findViewById(R.id.destinationStationSelected);
+
+        trainListView = findViewById(R.id.trainListView);
+
+        trainAdapter = new TrainListAdapter(this, R.layout.station_list_item, trainList);
+        trainListView.setAdapter(trainAdapter);
+
         getStations();
     }
 
@@ -145,19 +162,33 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
         String url = _url + "train-tracking/latest/" + TrainNumber;
     }
 
-    public void getStationComposition(View view) {
-        String url = _url + "live-trains/station/" + mDepartureStation + '/' + mDestinationStation;
+    public void getTrains(View view) {
+        boolean include_nonstopping = false;
+        int limit = 20;
+        String url = _url + "live-trains/station/" + mDepartureStation + '/' + mDestinationStation + "?include_nonstopping=" + String.valueOf(include_nonstopping) + "&limit=" + limit;
+
+        trainAdapter.setStations(mDepartureStation, mDestinationStation);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
 
             @Override
             public void onResponse(JSONArray response) {
-                Log.i("Response: ", response.toString());
-                stationList = new ArrayList<>();
+                // Log.i("Response: ", response.toString());
+
                 Gson gson = new GsonBuilder().create();
-                // Type listType = new TypeToken<ArrayList<Station>>(){}.getType();
-                // stationList = gson.fromJson(response.toString(), listType);
-                Log.i("LIST: ", stationList.toString());
+                Type listType = new TypeToken<List<Train>>(){}.getType();
+                trainList.clear();
+                trainList.addAll((ArrayList<Train>) gson.fromJson(response.toString(), listType));
+
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        trainAdapter.notifyDataSetChanged();
+                    }
+                });
+                Log.i("LIST: ", trainList.toString());
+
             }},
                 new Response.ErrorListener() {
                     @Override
