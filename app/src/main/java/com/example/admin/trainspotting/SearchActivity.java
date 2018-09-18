@@ -21,6 +21,7 @@ import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import android.view.View;
 import android.widget.Button;
@@ -32,14 +33,13 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
     RequestQueue queue;
     String _url;
 
-    boolean buttonSelect;
-    static Button bDepartureStation;
-    static Button bDestinationStation;
+    Button bDepartureStation;
+    Button bDestinationStation;
     private Boolean buttonPressed;
     String mDepartureStation;
     String mDestinationStation;
 
-    public static ArrayList<Station> stationList;
+    public static List<Station> stationList;
 
     private Calendar calendar;
     private String sDate;
@@ -80,20 +80,20 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
     @Override
     public void onListFragmentInteraction(Station station) {
         // Log.i("A", station.getStationShortCode());
-        final String mStation = station.getStationShortCode().toString();
+        final Station mStation = station;
         final String mStationDisplay = station.getStationName().toString();
 
-        Log.i("a", mStation);
 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if(buttonPressed) {
                     bDestinationStation.setText(mStationDisplay);
-                    mDestinationStation = mStation;
+                    mDestinationStation = mStation.getStationShortCode();
+
                 } else {
                     bDepartureStation.setText(mStationDisplay);
-                    mDepartureStation = mStation;
+                    mDepartureStation = mStation.getStationShortCode();
                 }
                 fragment.dismiss();
             }
@@ -146,8 +146,27 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
     }
 
     public void getStationComposition(View view) {
-        String url = _url + "live-trains/station/";
+        String url = _url + "live-trains/station/" + mDepartureStation + '/' + mDestinationStation;
 
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.i("Response: ", response.toString());
+                stationList = new ArrayList<>();
+                Gson gson = new GsonBuilder().create();
+                // Type listType = new TypeToken<ArrayList<Station>>(){}.getType();
+                // stationList = gson.fromJson(response.toString(), listType);
+                Log.i("LIST: ", stationList.toString());
+            }},
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+
+        HTTPTrain.getInstance(this).addToRequestQueue(jsonArrayRequest);
     }
 
 }
