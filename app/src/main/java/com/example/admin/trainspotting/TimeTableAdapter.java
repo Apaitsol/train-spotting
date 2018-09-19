@@ -35,6 +35,10 @@ public class TimeTableAdapter extends ArrayAdapter<TimeTableRow> {
             TimeTableRow ttRow = i.next();
             if(!ttRow.isTrainStopping()) {
                 i.remove();
+            } else {
+                if(!ttRow.isCommercialStop()) {
+                    i.remove();
+                }
             }
         }
     }
