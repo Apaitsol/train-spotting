@@ -1,6 +1,7 @@
 package com.example.admin.trainspotting;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -30,6 +31,8 @@ public class SingleTrainActivity extends AppCompatActivity {
 
     Train mTrain;
     List<Station> mStations;
+    String mDepartureStation;
+    String mDestinationStation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +51,29 @@ public class SingleTrainActivity extends AppCompatActivity {
         destinationStationTextView = findViewById(R.id.destinationStation);
         timeTable = findViewById(R.id.timeTableList);
 
-        ttAdapter = new TimeTableAdapter(this, R.layout.timetablerow_single_item, mTrain.getTimeTableRows());
+        ttAdapter = new TimeTableAdapter(this, R.layout.timetablerow_single_item, mTrain.getTimeTableRows(), mStations);
         timeTable.setAdapter(ttAdapter);
 
         // SET TEXTS
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                mDepartureStation = findStationName(mStations, mTrain.getDepartureStation());
+                mDestinationStation = findStationName(mStations, mTrain.getDestinationStation());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        departureStationTextView.setText(mDepartureStation);
+                        destinationStationTextView.setText(mDestinationStation);
+                    }
+                });
+            }
+        });
+
+
         trainNumberTextView.setText(mTrain.getTrainNumber());
         trainTypeTextView.setText(mTrain.getTrainType());
-        departureStationTextView.setText(mTrain.getDepartureStation());
-        destinationStationTextView.setText(mTrain.getDestinationStation());
 
     }
 

@@ -1,6 +1,8 @@
 package com.example.admin.trainspotting;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +22,13 @@ public class TimeTableAdapter extends ArrayAdapter<TimeTableRow> {
 
     Context mContext;
     private int resourceLayout;
+    private List<Station> mStations;
 
-    public TimeTableAdapter(Context context, int resource, List<TimeTableRow> timeTable) {
+    public TimeTableAdapter(Context context, int resource, List<TimeTableRow> timeTable, List<Station> stations) {
         super(context, resource, timeTable);
         this.resourceLayout = resource;
         this.mContext = context;
+        this.mStations = stations;
 
         Iterator<TimeTableRow> i = timeTable.iterator();
         while(i.hasNext()) {
@@ -46,12 +50,12 @@ public class TimeTableAdapter extends ArrayAdapter<TimeTableRow> {
             view = viewInflater.inflate(resourceLayout, null);
         }
 
-        TimeTableRow ttRow = getItem(position);
+        final TimeTableRow ttRow = getItem(position);
 
         if(ttRow != null && ttRow.isTrainStopping() == true) {
             TextView ttType = view.findViewById(R.id.timetableType);
             TextView ttTime = view.findViewById(R.id.timetableTime);
-            TextView ttStation = view.findViewById(R.id.timetableStation);
+            final  TextView ttStation = view.findViewById(R.id.timetableStation);
 
 
             if(ttType != null) {
@@ -73,9 +77,32 @@ public class TimeTableAdapter extends ArrayAdapter<TimeTableRow> {
             }
 
             if(ttStation != null) {
-                ttStation.setText(ttRow.getStationShortCode());
+                AsyncTask.execute(new Runnable() {
+                    String name;
+                    @Override
+                    public void run() {
+                        name = findStationName(mStations, ttRow.getStationShortCode());
+                        ((Activity) mContext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ttStation.setText(name);
+                            }
+                        });
+                    }
+                });
             }
         }
         return view;
+    }
+
+    String findStationName(List<Station> stationList, String shortCode) {
+        Iterator<Station> i = stationList.iterator();
+        while(i.hasNext()) {
+            Station s = i.next();
+            if(s.getStationShortCode().equals(shortCode)) {
+                return s.getStationName();
+            }
+        }
+        return null;
     }
 }
