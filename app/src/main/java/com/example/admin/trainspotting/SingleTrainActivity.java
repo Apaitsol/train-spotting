@@ -3,11 +3,13 @@ package com.example.admin.trainspotting;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.admin.trainspotting.Classes.Station;
 import com.example.admin.trainspotting.Classes.Train;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class SingleTrainActivity extends AppCompatActivity {
@@ -21,6 +23,10 @@ public class SingleTrainActivity extends AppCompatActivity {
     TextView trainTypeTextView;
     TextView departureStationTextView;
     TextView destinationStationTextView;
+
+    ListView timeTable;
+
+    TimeTableAdapter ttAdapter;
 
     Train mTrain;
     List<Station> mStations;
@@ -40,6 +46,10 @@ public class SingleTrainActivity extends AppCompatActivity {
         trainTypeTextView = findViewById(R.id.trainType);
         departureStationTextView = findViewById(R.id.departureStation);
         destinationStationTextView = findViewById(R.id.destinationStation);
+        timeTable = findViewById(R.id.timeTableList);
+
+        ttAdapter = new TimeTableAdapter(this, R.layout.timetablerow_single_item, mTrain.getTimeTableRows());
+        timeTable.setAdapter(ttAdapter);
 
         // SET TEXTS
         trainNumberTextView.setText(mTrain.getTrainNumber());
@@ -47,5 +57,16 @@ public class SingleTrainActivity extends AppCompatActivity {
         departureStationTextView.setText(mTrain.getDepartureStation());
         destinationStationTextView.setText(mTrain.getDestinationStation());
 
+    }
+
+    String findStationName(List<Station> stationList, String shortCode) {
+        Iterator<Station> i = stationList.iterator();
+        while(i.hasNext()) {
+            Station s = i.next();
+            if(s.getStationShortCode().equals(shortCode)) {
+                return s.getStationName();
+            }
+        }
+        return null;
     }
 }

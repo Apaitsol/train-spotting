@@ -13,4 +13,5 @@
     <string name="destinationTime">Saapuu asemalle: </string>
     <string name="searchTextPlaceholder">Hae asema</string>
     <string name="viiva">-</string>
+    <string name="timetable">Aikataulu</string>
 </resources>

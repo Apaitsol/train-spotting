@@ -89,14 +89,14 @@ public class TrainListAdapter extends ArrayAdapter<Train> {
             if(tDepartureStation != null && departingStation != null) {
 
                 TimeTableRow stop = train.getDepartingStation(departingStationCode);
-                String time = new SimpleDateFormat().getTimeInstance(DateFormat.SHORT).format(stop.getScheduledTime());
+                String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(stop.getScheduledTime());
                 tDepartureStation.setText(departingStation);
                 departureTime.setText(time);
             }
 
             if(tDestinationStation != null && destinationStation != null) {
                 TimeTableRow stop = train.getArrivingStation(destinationStationCode);
-                String time = new SimpleDateFormat().getTimeInstance(DateFormat.SHORT).format(stop.getScheduledTime());
+                String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(stop.getScheduledTime());
                 tDestinationStation.setText(destinationStation);
                 destinationTime.setText(time);
 

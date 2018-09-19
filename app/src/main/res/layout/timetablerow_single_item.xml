@@ -17,13 +17,15 @@
 
             <TextView
                 android:id="@+id/timetableType"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="32dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:textColor="@color/colorTitle"
                 android:textSize="@dimen/timetable_row"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -37,9 +39,11 @@
                 android:id="@+id/timetableTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="2dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="8dp"
                 android:textSize="@dimen/timetable_row"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
@@ -52,9 +56,12 @@
                 android:id="@+id/timetableStation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="8dp"
                 android:textSize="@dimen/timetable_row"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>

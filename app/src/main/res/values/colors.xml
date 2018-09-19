@@ -6,4 +6,6 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorTitle">#ff5e00</color>
     <color name="alertColor">#ff1212</color>
+    <color name="arrivalColor">#09a10b</color>
+    <color name="departureColor">#ce1316</color>
 </resources>
