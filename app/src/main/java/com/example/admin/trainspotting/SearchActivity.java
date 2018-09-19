@@ -6,23 +6,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.admin.trainspotting.Classes.Station;
 import com.example.admin.trainspotting.Classes.Train;
+import com.example.admin.trainspotting.Classes.VolleyParams;
+import com.example.admin.trainspotting.Interfaces.IVolleyReceiver;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import android.view.View;
@@ -30,16 +31,17 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class SearchActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
+public class SearchActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener, IVolleyReceiver {
 
     FragmentManager manager = getSupportFragmentManager();
     ItemFragment fragment = ItemFragment.newInstance();
-    RequestQueue queue;
-    String _url;
 
+    TextView displayDate;
     Button bDepartureStation;
     Button bDestinationStation;
+    Button bTrains;
     ListView trainListView;
 
     private Boolean buttonPressed;
@@ -48,7 +50,7 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
     String mDepartureStation;
     String mDestinationStation;
 
-    public static List<Station> stationList;
+    public static List<Station> stationList = new ArrayList<>();
     public List<Train> trainList = new ArrayList<>();
 
     TrainListAdapter trainAdapter;
@@ -56,19 +58,25 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
     private Calendar calendar;
     private String sDate;
     private SimpleDateFormat httpDate;
-    private SimpleDateFormat displayDate;
+    private SimpleDateFormat showDate;
+
+    VolleyParams params;
+    Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        _url = "https://rata.digitraffic.fi/api/v1/";
-        queue = HTTPTrain.getInstance(this.getApplicationContext()).getRequestQueue();
         setContentView(R.layout.activity_search);
 
+        gson = new GsonBuilder().create();
+
         /* TÄNNE UI MÄÄRITYKSET*/
+        displayDate = findViewById(R.id.displayDate);
         bDepartureStation = findViewById(R.id.departureStationSelected);
         bDestinationStation = findViewById(R.id.destinationStationSelected);
+        bTrains = findViewById(R.id.trainsButton);
+        bTrains.setEnabled(false);
 
         trainListView = findViewById(R.id.trainListView);
 
@@ -79,21 +87,17 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                String trainNumber = ((TextView) view.findViewById(R.id.trainType)).getText().toString();
-                String trainType = ((TextView) view.findViewById(R.id.trainCategory)).getText().toString();
-                String departureStation = ((TextView) view.findViewById(R.id.departureStationInfo)).getText().toString();
-                String destinationStation = ((TextView) view.findViewById(R.id.arrivalStationInfo)).getText().toString();
-
+                //Pass the selected train in the intent
                 Intent intent = new Intent(getApplicationContext(), SingleTrainActivity.class);
-                intent.putExtra("TRAIN_NUMBER", trainNumber);
-                intent.putExtra("TRAIN_TYPE", trainType);
-                intent.putExtra("DEPARTURE_STATION", departureStation);
-                intent.putExtra("DESTINATION_STATION", destinationStation);
+                intent.putExtra("TRAIN", trainList.get(position));
+                intent.putExtra("STATIONS", (Serializable) stationList);
                 startActivity(intent);
             }
         });
 
-        getStations();
+        params = new VolleyParams("https://rata.digitraffic.fi/api/v1/metadata/stations", IVolleyReceiver.STATIONS);
+        VolleyTask volleyService = new VolleyTask(this, this);
+        volleyService.execute(params);
     }
 
     @Override
@@ -102,7 +106,9 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
 
         calendar = Calendar.getInstance();
         httpDate = new SimpleDateFormat("yyyy-MM-dd");
-        displayDate = new SimpleDateFormat("dd.MM.yyyy");
+        showDate = new SimpleDateFormat("dd.MM.yyyy");
+
+        displayDate.setText(showDate.format(calendar.getTime()));
     }
 
     @Override
@@ -128,11 +134,18 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
                 if(buttonPressed) {
                     bDestinationStation.setText(mStationDisplay);
                     mDestinationStation = mStation.getStationShortCode();
+                    trainAdapter.setDestinationStation(mStation.getStationName(), mStation.getStationShortCode());
 
                 } else {
                     bDepartureStation.setText(mStationDisplay);
                     mDepartureStation = mStation.getStationShortCode();
+                    trainAdapter.setDepartingStation(mStation.getStationName(), mStation.getStationShortCode());
                 }
+
+                if(mDestinationStation != null && mDepartureStation != null) {
+                    bTrains.setEnabled(true);
+                }
+
                 fragment.dismiss();
             }
         });
@@ -140,7 +153,6 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
     }
 
     public void selectDepartureStation(View view) {
-
         fragment.show(manager, "Stationlist");
         buttonPressed = false;
     }
@@ -150,75 +162,61 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
         buttonPressed = true;
     }
 
-    public void getStations() {
-        String url = _url + "metadata/stations";
+    public void findTrains(View view) {
+        if(mDepartureStation != null && mDestinationStation != null) {
+            Log.i("ASD", "ASD");
+            params.setUrl("https://rata.digitraffic.fi/api/v1/live-trains/station/" + mDepartureStation + "/" + mDestinationStation + "?include_nonstopping=false&limit=20");
+            params.setRequestType(IVolleyReceiver.TRAINS);
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            VolleyTask getTrain = new VolleyTask(this, this);
+            getTrain.execute(params);
 
-            @Override
-            public void onResponse(JSONArray response) {
-                Log.i("Response: ", response.toString());
-                stationList = new ArrayList<>();
-                Gson gson = new GsonBuilder().create();
-                Type listType = new TypeToken<ArrayList<Station>>(){}.getType();
+        }
+    }
+
+    @Override
+    public void notifySuccess(String requestType, JSONArray response) {
+        Type listType;
+
+        switch(requestType)
+        {
+            case IVolleyReceiver.STATIONS:
+                listType = new TypeToken<ArrayList<Station>>(){}.getType();
                 stationList = gson.fromJson(response.toString(), listType);
-                Log.i("LIST: ", stationList.toString());
-            }},
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
 
+                Iterator<Station> i = stationList.iterator();
+                while(i.hasNext()) {
+                    Station s = i.next();
+                    if(!s.isPassengerTraffic()) {
+                        i.remove();
                     }
-                });
+                }
+                break;
 
-        HTTPTrain.getInstance(this).addToRequestQueue(jsonArrayRequest);
-    }
-
-    public void getTrainLocation(String TrainNumber) {
-        String url = _url + "train-locations/latest/" + TrainNumber;
-
-    }
-
-    public void getTrainInformation(String TrainNumber ) {
-        String url = _url + "train-tracking/latest/" + TrainNumber;
-    }
-
-    public void getTrains(View view) {
-        boolean include_nonstopping = false;
-        int limit = 20;
-        String url = _url + "live-trains/station/" + mDepartureStation + '/' + mDestinationStation + "?include_nonstopping=" + String.valueOf(include_nonstopping) + "&limit=" + limit;
-
-        trainAdapter.setStations(mDepartureStation, mDestinationStation);
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-
-            @Override
-            public void onResponse(JSONArray response) {
-                // Log.i("Response: ", response.toString());
-
-                Gson gson = new GsonBuilder().create();
-                Type listType = new TypeToken<List<Train>>(){}.getType();
-                trainList.clear();
+            case IVolleyReceiver.TRAINS:
+                listType = new TypeToken<List<Train>>(){}.getType();
+                trainAdapter.clear();
                 trainList.addAll((ArrayList<Train>) gson.fromJson(response.toString(), listType));
-
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         trainAdapter.notifyDataSetChanged();
                     }
                 });
-                Log.i("LIST: ", trainList.toString());
+                break;
+        }
+    }
 
-            }},
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+    @Override
+    public void notifySuccessObject(String requestType, JSONObject response) {
 
-                    }
-                });
+    }
 
-        HTTPTrain.getInstance(this).addToRequestQueue(jsonArrayRequest);
+    @Override
+    public void notifyError(String requestType, VolleyError error) {
+        Log.i("ERROR", error.getMessage());
+        trainAdapter.clear();
+        Toast.makeText(this, "Junia ei löytynyt", Toast.LENGTH_LONG).show();
     }
 
 }

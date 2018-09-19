@@ -6,119 +6,147 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/trainCategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1"
-        android:text="erterter"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textColor="@color/colorTitle"
-        android:textSize="@dimen/label_text_size"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="76dp">
 
-    <TextView
-        android:id="@+id/trainType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1"
-        android:text="wretert"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textColor="@color/colorTitle"
-        android:textSize="@dimen/label_text_size"
-        app:layout_constraintStart_toEndOf="@+id/trainCategory"
-        app:layout_constraintTop_toTopOf="parent" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6">
 
-    <TextView
-        android:id="@+id/departureStationInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1"
-        android:text="wretert"
-        android:textAppearance="?attr/textAppearanceListItem"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trainCategory" />
+            <TextView
+                android:id="@+id/trainType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:text="wretert"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textColor="@color/colorTitle"
+                android:textSize="@dimen/label_text_size"
+                app:layout_constraintStart_toEndOf="@+id/trainCategory"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/arrivalStationInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1"
-        android:text="erterter"
-        android:textAppearance="?attr/textAppearanceListItem"
-        app:layout_constraintStart_toEndOf="@+id/departureStationInfo"
-        app:layout_constraintTop_toBottomOf="@+id/trainType" />
+            <TextView
+                android:id="@+id/arrivalStationInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:text="erterter"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="@dimen/list_text"
+                app:layout_constraintStart_toEndOf="@+id/departureStationInfo"
+                app:layout_constraintTop_toBottomOf="@+id/trainType" />
 
-    <TextView
-        android:id="@+id/alertInfoBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
-        android:textColor="@color/alertColor"
-        android:textSize="@dimen/label_text_size"
-        android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@+id/trainType"
-        app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/departureStationInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:text="wretert"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="@dimen/list_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/trainCategory" />
 
-    <TextView
-        android:id="@+id/minuteText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/minuteText"
-        android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@+id/minuteAmountInfo"
-        app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/trainCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:text="erterter"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textColor="@color/colorTitle"
+                android:textSize="@dimen/label_text_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/minuteAmountInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="Text"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/minuteText"
-        app:layout_constraintStart_toEndOf="@+id/alertInfoBox"
-        app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:text="@string/viiva"
+                android:textSize="@dimen/list_text"
+                app:layout_constraintEnd_toStartOf="@+id/arrivalStationInfo"
+                app:layout_constraintStart_toEndOf="@+id/departureStationInfo"
+                app:layout_constraintTop_toTopOf="@+id/arrivalStationInfo" />
+        </android.support.constraint.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/departureTimeInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/departureTime"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/arrivalStationInfo"
-        app:layout_constraintTop_toBottomOf="@+id/alertInfoBox" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4">
 
-    <TextView
-        android:id="@+id/destinationTimeInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="@string/destinationTime"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/arrivalStationInfo"
-        app:layout_constraintTop_toBottomOf="@+id/departureTimeInfo" />
+            <TextView
+                android:id="@+id/departureTimeInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/departureTime"
+                app:layout_constraintStart_toEndOf="@+id/trainType"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/destinationTimeInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/destinationTime"
+                app:layout_constraintStart_toEndOf="@+id/trainType"
+                app:layout_constraintTop_toBottomOf="@+id/departureTime" />
+
+            <TextView
+                android:id="@+id/destinationTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                app:layout_constraintTop_toBottomOf="@+id/destinationTimeInfo"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <TextView
+                android:id="@+id/departureTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                app:layout_constraintTop_toBottomOf="@+id/departureTimeInfo"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <TextView
+                android:id="@+id/departureStation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="16dp"
+                android:text="TextView"
+                app:layout_constraintStart_toEndOf="@+id/departureTimeInfo"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/destinationStation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="TextView"
+                app:layout_constraintStart_toEndOf="@+id/destinationTimeInfo"
+                app:layout_constraintTop_toTopOf="@+id/destinationTimeInfo" />
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

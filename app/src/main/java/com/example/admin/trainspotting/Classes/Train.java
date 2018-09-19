@@ -2,11 +2,12 @@ package com.example.admin.trainspotting.Classes;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-public class Train {
+public class Train implements Serializable {
     Integer trainNumber;
     String departureDate;
     int operatorUICCode;

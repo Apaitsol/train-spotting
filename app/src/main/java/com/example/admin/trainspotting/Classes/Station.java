@@ -1,6 +1,18 @@
 package com.example.admin.trainspotting.Classes;
 
-public class Station {
+import java.io.Serializable;
+
+public class Station implements Serializable {
+
+    private boolean passengerTraffic;
+    private String type;
+    private String stationName;
+    private String stationShortCode;
+    private int stationUICCode;
+    private String countryCode;
+    private double longitude;
+    private double latitude;
+
     public boolean isPassengerTraffic() {
         return passengerTraffic;
     }
@@ -64,15 +76,6 @@ public class Station {
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
-
-    private boolean passengerTraffic;
-    private String type;
-    private String stationName;
-    private String stationShortCode;
-    private int stationUICCode;
-    private String countryCode;
-    private double longitude;
-    private double latitude;
 
 
 }

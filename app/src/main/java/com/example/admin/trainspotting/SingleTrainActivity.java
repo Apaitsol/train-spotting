@@ -5,6 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.admin.trainspotting.Classes.Station;
+import com.example.admin.trainspotting.Classes.Train;
+
+import java.util.List;
+
 public class SingleTrainActivity extends AppCompatActivity {
 
     private static final String TRAIN_NUMBER ="TRAIN_NUMBER";
@@ -17,6 +22,9 @@ public class SingleTrainActivity extends AppCompatActivity {
     TextView departureStationTextView;
     TextView destinationStationTextView;
 
+    Train mTrain;
+    List<Station> mStations;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,10 +32,8 @@ public class SingleTrainActivity extends AppCompatActivity {
 
         // GET DATA FROM INTENT
         Intent intent = getIntent();
-        String trainNumber = intent.getStringExtra(TRAIN_NUMBER);
-        String trainType = intent.getStringExtra(TRAIN_TYPE);
-        String departureStation = intent.getStringExtra(DEPARTURE_STATION);
-        String destinationStation = intent.getStringExtra(DESTINATION_STATION);
+        mTrain = (Train) intent.getSerializableExtra("TRAIN");
+        mStations = (List<Station>) intent.getSerializableExtra("STATIONS");
 
         // REFERENCE UI ELEMENTS
         trainNumberTextView = findViewById(R.id.trainNumber);
@@ -36,11 +42,10 @@ public class SingleTrainActivity extends AppCompatActivity {
         destinationStationTextView = findViewById(R.id.destinationStation);
 
         // SET TEXTS
-        trainNumberTextView.setText(trainNumber);
-        trainTypeTextView.setText(trainType);
-        departureStationTextView.setText(departureStation);
-        destinationStationTextView.setText(destinationStation);
-
+        trainNumberTextView.setText(mTrain.getTrainNumber());
+        trainTypeTextView.setText(mTrain.getTrainType());
+        departureStationTextView.setText(mTrain.getDepartureStation());
+        destinationStationTextView.setText(mTrain.getDestinationStation());
 
     }
 }

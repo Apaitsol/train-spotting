@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.admin.trainspotting.Classes.Station;
 import com.example.admin.trainspotting.ItemFragment.OnListFragmentInteractionListener;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -37,20 +38,20 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getStationShortCode());
-        holder.mContentView.setText(mValues.get(position).getStationName());
+            holder.mItem = mValues.get(position);
+            holder.mIdView.setText(mValues.get(position).getStationShortCode());
+            holder.mContentView.setText(mValues.get(position).getStationName());
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (null != mListener) {
+                        // Notify the active callbacks interface (the activity, if the
+                        // fragment is attached to one) that an item has been selected.
+                        mListener.onListFragmentInteraction(holder.mItem);
+                    }
                 }
-            }
-        });
+            });
     }
 
     @Override

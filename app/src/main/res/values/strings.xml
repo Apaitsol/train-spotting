@@ -9,7 +9,8 @@
     <string name="latestStationLabel">Edellinen asema</string>
     <string name="nextStationLabel">Seuraava asema</string>
     <string name="minuteText">minuuttia</string>
-    <string name="departureTime">Lähtee asemalta </string>
-    <string name="destinationTime">Saapuu asemalle </string>
+    <string name="departureTime">Lähtee asemalta: </string>
+    <string name="destinationTime">Saapuu asemalle: </string>
     <string name="searchTextPlaceholder">Hae asema</string>
+    <string name="viiva">-</string>
 </resources>

@@ -1,8 +1,9 @@
 package com.example.admin.trainspotting.Classes;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TimeTableRow {
+public class TimeTableRow implements Serializable {
     private boolean trainStopping;
     private String stationShortCode;
     private int stationUICCode;
