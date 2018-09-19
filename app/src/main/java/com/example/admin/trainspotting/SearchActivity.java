@@ -191,6 +191,7 @@ public class SearchActivity extends AppCompatActivity implements ItemFragment.On
                         i.remove();
                     }
                 }
+
                 break;
 
             case IVolleyReceiver.TRAINS:

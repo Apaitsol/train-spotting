@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class TimeTableRow implements Serializable {
     private boolean trainStopping;
+    private boolean commercialStop;
     private String stationShortCode;
     private int stationUICCode;
     private String countryCode;
@@ -15,6 +16,10 @@ public class TimeTableRow implements Serializable {
     private boolean unknownDelay;
     private Date actualTime;
     private int differenceInMinutes;
+
+    public boolean isCommercialStop() { return commercialStop; }
+
+    public void setCommercialStop(boolean commercialStop) { this.commercialStop = commercialStop; }
 
     public boolean isTrainStopping() {
         return trainStopping;
