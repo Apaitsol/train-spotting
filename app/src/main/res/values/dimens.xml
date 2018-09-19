@@ -4,4 +4,5 @@
     <dimen name="label_text_size">10pt</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="list_text">16sp</dimen>
+    <dimen name="timetable_row">8pt</dimen>
 </resources>
